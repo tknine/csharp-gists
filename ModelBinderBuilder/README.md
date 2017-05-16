@@ -1,6 +1,15 @@
 ﻿# Model Binder Builder
 
-The ModelBinderBuilder class allows for removing "magic string" arrays from the UpdateModel method of a controller.  Instead, the class type is used along with lambda functions to designate which model properties are to be bound.
+The ModelBinderBuilder class allows for removing "magic string" arrays from the UpdateModel method of a MVC or WebApi controller.  Instead, the class type is used along with lambda functions to designate which model properties are to be bound. 
+
+Providing a binding field list for UpdateModel is always a best practice to avoid having the client sending data that should not change.
+
+Demonstrates usage of the following .Net features:
+* Generics
+* Reflection
+* Lambda functions
+* Expression trees
+* Unit testing
 
 ## Usage
 
@@ -10,12 +19,12 @@ To not have the binder rebuilt with each action invocation, it would be best to 
 //Controller static field
 private static ModelBinderBuilder<Movie> movieBinder;
 
-//Controller static constructor
+//Inside controller static constructor
 movieBinder = ModelBinderBuilder<Movie>.Get()
     .Add(x => x.Id)
     .Add(x => x.Name);
 
-//Controller action - get fields as string[]
+//Inside controller action - get fields as string[]
 UpdateModel(movie, movieBinder.Fields);
 ```
 
@@ -61,7 +70,7 @@ movieBinder = ModelBinderBuilder<Movie>.Get()
 Remove the specified property.
 ```csharp
 movieBinder = ModelBinderBuilder<Movie>.Get()
-    .All().
+    .All()
     .Remove(x => x.Year);
 ```
 
